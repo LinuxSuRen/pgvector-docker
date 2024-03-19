@@ -43,6 +43,7 @@ jobs:
           platforms: linux/amd64,linux/arm64
           cache-from: type=gha
           cache-to: type=gha,mode=max
+          build-args: PG_MAJOR=15,PGVECTOR_TAG=v0.6.2
 
   image-dockerhub:
     runs-on: ubuntu-20.04
@@ -74,3 +75,4 @@ jobs:
           platforms: linux/amd64,linux/arm64
           cache-from: type=gha
           cache-to: type=gha,mode=max
+          build-args: PG_MAJOR=15,PGVECTOR_TAG=v0.6.2
