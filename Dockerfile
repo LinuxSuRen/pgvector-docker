@@ -1,4 +1,4 @@
-FROM bitnami/postgresql:16.2.0-debian-12-r8
+FROM bitnami/postgresql:15.6.0-debian-12-r7
 
 USER root
 RUN apt update -y && apt install -y postgresql-common
