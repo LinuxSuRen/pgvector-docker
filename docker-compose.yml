@@ -1,0 +1,20 @@
+version: "3"
+services:
+  postgres:
+    image: bitnami-postgresql-pgvector
+    build:
+      dockerfile: Dockerfile
+    ports:
+      - "5432:5432"
+    environment:
+      # docker exec -it bitnami-postgresql-pgvector-1 psql -U test-user -d test
+      POSTGRES_USER: test-user
+      POSTGRES_DB: test
+      POSTGRES_PASSWORD: test-password
+      POSTGRESQL_POSTGRES_PASSWORD: admin-password
+      POSTGRESQL_INITSCRIPTS_USERNAME: postgres
+      POSTGRESQL_INITSCRIPTS_PASSWORD: admin-password
+    volumes:
+      - './postgres-data:/bitnami/postgresql'
+      # This is different when deploying using Helm: https://stackoverflow.com/a/71165033/2771689
+      - './add-vector-extension.sql:/docker-entrypoint-initdb.d/add-vector-extension.sql'
