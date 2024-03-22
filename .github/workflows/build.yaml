@@ -10,7 +10,7 @@ on:
 env:
   REGISTRY: ghcr.io
   REGISTRY_DOCKERHUB: docker.io
-  IMAGE_NAME: pgvector
+  IMAGE_NAME: bitnami-postgresql-pgvector
 
 jobs:
   image:
@@ -31,7 +31,7 @@ jobs:
         id: meta
         uses: docker/metadata-action@98669ae865ea3cffbcbaa878cf57c20bbf1c6c38
         with:
-          images: ${{ env.REGISTRY }}/linuxsuren/${{ env.IMAGE_NAME }}
+          images: ${{ env.REGISTRY }}/vormer/${{ env.IMAGE_NAME }}
       - name: Build and push Docker image
         id: build-and-push
         uses: docker/build-push-action@ac9327eae2b366085ac7f6a2d02df8aa8ead720a
@@ -44,7 +44,7 @@ jobs:
           cache-from: type=gha
           cache-to: type=gha,mode=max
           build-args: |
-            PG_MAJOR=15
+            BASE_IMAGE=bitnami/postgresql:16.2.0-debian-12-r8
             PGVECTOR_TAG=v0.6.2
 
   image-dockerhub:
@@ -59,13 +59,13 @@ jobs:
         uses: docker/login-action@28218f9b04b4f3f62068d7b6ce6ca5b26e35336c
         with:
           registry: ${{ env.REGISTRY_DOCKERHUB }}
-          username: linuxsuren
+          username: vormer
           password: ${{ secrets.DOCKER_HUB_PUBLISH_SECRETS }}
       - name: Extract Docker metadata
         id: meta
         uses: docker/metadata-action@98669ae865ea3cffbcbaa878cf57c20bbf1c6c38
         with:
-          images: ${{ env.REGISTRY_DOCKERHUB }}/linuxsuren/${{ env.IMAGE_NAME }}
+          images: ${{ env.REGISTRY_DOCKERHUB }}/vormer/${{ env.IMAGE_NAME }}
       - name: Build and push Docker image
         id: build-and-push
         uses: docker/build-push-action@ac9327eae2b366085ac7f6a2d02df8aa8ead720a
@@ -78,5 +78,5 @@ jobs:
           cache-from: type=gha
           cache-to: type=gha,mode=max
           build-args: |
-            PG_MAJOR=15
+            BASE_IMAGE=bitnami/postgresql:16.2.0-debian-12-r8
             PGVECTOR_TAG=v0.6.2
